@@ -4,7 +4,7 @@
  * and open the template in the editor.
  */
 
-package cryprtolexo;
+package Cryptolexo;
 
 import java.util.Arrays;
 import java.util.Comparator;
@@ -29,27 +29,21 @@ public class Cryptolexo {
     private String[][] cryptolexo;
     private int nwords = 5; //TODO get it changed
     
-    public Cryptolexo(int N,int M) {
+    public Cryptolexo(int N, int M, int nwords) {
         this.N = N;
         this.M = M;
+        this.nwords = nwords;
         cryptolexo = new String[N][M];
+        createCryptolexo();
     }
     
-    public Cryptolexo(int N) {
-        this.N = N;
-        this.M = N;
-        cryptolexo = new String[N][M];
+    public Cryptolexo(int N, int nwords) {
+        this(N, N, nwords);
     }
     
-    public String[][] getCryptolexo() {
-        return cryptolexo;
-    }
-    
-    public void createCryptolexo() {
+    private void createCryptolexo() {
         String[] words = WordList.getWords(nwords, N);
-        Arrays.sort(words, new compareStringLength());
-        
-        
+        Arrays.sort(words, new CompareStringLength());        
         
         int w = 0;
         while(w<nwords) {
@@ -70,17 +64,6 @@ public class Cryptolexo {
             }
             w++;
         }
-        
-        
-        
-        
-        //addFillCryptolexo();      
-        //addFillCryptolexoWithNum();  
-//        addVerticalWord(0,0,"ELEPHANt");
-//        System.out.println("***"+getColEmptySpace(5, 0));
-//        System.out.println("***"+getColWithCollision("ANT", 0));
-        addFillCryptolexoWithEmpties();
-        printCryptolexo();
     }
     
     private boolean addWordRandomly(String word) {
@@ -252,51 +235,32 @@ public class Cryptolexo {
         }
     }
     
-    private void addFillCryptolexo() {
+    public void printCryptolexo() {
+        printCryptolexo(PrintTypes.RANDOM);
+    }
+    
+    private void printCryptolexo(PrintTypes pt) {
         for(int i=0;i<cryptolexo.length;i++) {
             for(int j=0;j<cryptolexo[0].length;j++){
                 if(cryptolexo[i][j] == null) {
-                    cryptolexo[i][j] = String.valueOf((char)Utils.random(65, 91));
+                    switch(pt) {
+                        case EMPTY: System.out.print(" ");break;
+                        case RANDOM: System.out.print(String.valueOf((char)Utils.random(65, 91)));break;
+                        case NUMBER: System.out.print(j);break;
+                    }
+                } else {
+                    System.out.print(cryptolexo[i][j]);
                 }
-            }
-        }
-    }
-    
-    private void addFillCryptolexoWithEmpties() {
-        for(int i=0;i<cryptolexo.length;i++) {
-            for(int j=0;j<cryptolexo[0].length;j++){
-                if(cryptolexo[i][j] == null) {
-                    cryptolexo[i][j] = " ";
-                }
-            }
-        }
-    }
-    
-    private void addFillCryptolexoWithNum() {
-        for(int i=0;i<cryptolexo.length;i++) {
-            for(int j=0;j<cryptolexo[0].length;j++){
-                if(cryptolexo[i][j] == null) {
-                    cryptolexo[i][j] = ""+j;
-                }
-            }
-        }
-    }
-    
-    private void printCryptolexo() {
-        printCryptolexo(cryptolexo);
-    }
-    
-    public void printCryptolexo(String[][] crypt) {
-        System.out.println();System.out.println("--");
-        for(int i=0;i<crypt.length;i++) {
-            for(int j=0;j<crypt[0].length;j++) {
-                System.out.print(crypt[i][j]);
             }
             System.out.println();
-        }System.out.println("--");
+        }        
     }
     
-    private class compareStringLength implements Comparator<String> {
+    private enum PrintTypes {
+        EMPTY, RANDOM, NUMBER
+    }
+    
+    private class CompareStringLength implements Comparator<String> {
         // bigger words come first in sort
 
         @Override

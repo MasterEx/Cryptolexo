@@ -4,13 +4,13 @@
  * and open the template in the editor.
  */
 
-package cryprtolexo;
+package Cryptolexo;
 
 /**
  *
  * @author periklis
  */
-public class Cryprtolexo {
+public class Main {
 
     /**
      * @param args the command line arguments
@@ -18,9 +18,7 @@ public class Cryprtolexo {
     public static void main(String[] args) {
         // TODO code application logic here
         
-        Cryptolexo crypt = new Cryptolexo(12);
-        crypt.createCryptolexo();
-        crypt.getCryptolexo();
+        
     }
     
 }

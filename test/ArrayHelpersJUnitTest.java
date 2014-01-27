@@ -4,7 +4,6 @@
  * and open the template in the editor.
  */
 
-import Cryptolexo.ArrayHelpers;
 import static Cryptolexo.ArrayHelpers.*;
 import org.junit.After;
 import org.junit.AfterClass;
@@ -79,8 +78,37 @@ public class ArrayHelpersJUnitTest {
         assertEquals("Failed to recognize that word doesn't fit", -1, getRowEmptySpace(s, 2, 2));
         assertEquals("Failed to find the correct place for the new word", 0, getRowEmptySpace(s, 1, 2));
         
-        // do the same for the columns...
+        s = new String[8][3];
+        // think vertical! "ttt     "
+        s[0][0] = "t";
+        s[1][0] = "t";
+        s[2][0] = "t";
+        // "    ttt "
+        s[4][1] = "t";
+        s[5][1] = "t";
+        s[6][1] = "t";
+        // "  tt  t "
+        s[2][2] = "t";
+        s[3][2] = "t";
+        s[6][2] = "t";
+        assertEquals("Failed to recognize that word doesn't fit", -1, getColEmptySpace(s, 12, 0));
+        assertEquals("Failed to recognize that word doesn't fit", -1, getColEmptySpace(s, 6, 0));
+        assertEquals("Failed to find the correct place for the new word", 3, getColEmptySpace(s, 5, 0));
+        assertEquals("Failed to recognize that word doesn't fit", -1, getColEmptySpace(s, 12, 1));
+        assertEquals("Failed to recognize that word doesn't fit", -1, getColEmptySpace(s, 6, 1));
+        assertEquals("Failed to recognize that word doesn't fit", -1, getColEmptySpace(s, 5, 1));
+        assertEquals("Failed to find the correct place for the new word", 0, getColEmptySpace(s, 4, 1));
+        assertEquals("Failed to recognize that word doesn't fit", -1, getColEmptySpace(s, 12, 2));
+        assertEquals("Failed to recognize that word doesn't fit", -1, getColEmptySpace(s, 6, 2));
+        assertEquals("Failed to recognize that word doesn't fit", -1, getColEmptySpace(s, 5, 2));
+        assertEquals("Failed to recognize that word doesn't fit", -1, getColEmptySpace(s, 4, 2));
+        assertEquals("Failed to find the correct place for the new word", 0, getColEmptySpace(s, 2, 2));
         
         System.out.println("testFindEmpty: PASSED");
+    }
+    
+    @Test
+    public void testFindCollisions() {
+        
     }
 }

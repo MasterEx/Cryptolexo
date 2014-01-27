@@ -57,7 +57,7 @@ public class ArrayHelpers {
     
     public static int getColEmptySpace(String[][] array, int length, int c) {
         int count = 0;
-        for(int i=0;i<array[0].length;i++) {
+        for(int i=0;i<array.length;i++) {
             if(array[i][c] == null) {
                 count++;
                 if(count == length) {

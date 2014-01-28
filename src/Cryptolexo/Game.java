@@ -36,6 +36,11 @@ public class Game {
         crypt = new Cryptolexo(N, M, numberOfWords);
     }
     
+    public void newGame(String[] words) {
+        this.numberOfWords = words.length;
+        crypt = new Cryptolexo(N, M, words);
+    }
+    
     public void printAsciiCryptolexo() {
         crypt.printCryptolexo();
     }

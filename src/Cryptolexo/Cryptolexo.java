@@ -50,6 +50,20 @@ public class Cryptolexo {
         this(N, N, nwords);
     }
     
+    public Cryptolexo(int N, String[] words) {
+        this(N, N, words);
+    }
+    
+    public Cryptolexo(int N, int M, String[] words) {
+        this.N = N;
+        this.M = M;
+        this.nwords = words.length;
+        this.words = words;
+        cryptolexoBase = new String[N][M];
+        cryptolexo = new String[N][M];
+        createCryptolexo();
+    }
+    
     public String[] getWords() {
         return words;
     }
@@ -59,7 +73,11 @@ public class Cryptolexo {
     }
     
     private void createCryptolexo() {
-        words = WordList.getWords(nwords, Math.max(N,M));
+        // use random words from the WordList if words aren't set
+        if(words == null) {
+            System.out.println("HERE**********");
+            words = WordList.getWords(nwords, Math.max(N,M));
+        }
         Arrays.sort(words, new CompareStringLength());
         
         int w = 0;

@@ -31,6 +31,11 @@ public class Main {
         
         System.out.println("Check if 5 first letters in row 1(0) is a word");
         System.out.println("Is a word? "+game.getWord(3, 0, 3, 4));
+        
+        System.out.println("GAME 2");
+        String[] s = {"HIPPO", "BERRY", "PIE", "TIE", "BOOMERANG"};
+        game.newGame(s);
+        game.printAsciiCryptolexo();
     }
     
 }

@@ -202,4 +202,31 @@ public class ArrayHelpersJUnitTest {
         
         System.out.println("testFindCollisions: PASSED");
     }
+    
+    @Test
+    public void testGetSelectedLetters() {
+        String[][] s = new String[5][5];
+        s[0][0] = "t";
+        s[0][1] = "r";
+        s[0][2] = "a";
+        s[0][3] = "i";
+        s[0][4] = "n";
+        s[1][0] = "o";
+        s[2][0] = "s";
+        s[3][0] = "t";
+        assertEquals("Failed to return the correct word", "t", getSelectedLetters(s, 0, 0, 0, 0));
+        assertEquals("Failed to return the correct word", "train", getSelectedLetters(s, 0, 0, 0, 4));
+        assertEquals("Failed to return the correct word", "tost", getSelectedLetters(s, 0, 0, 3, 0));
+        assertEquals("Failed to return the correct word", "ain", getSelectedLetters(s, 0, 2, 0, 4));
+        assertEquals("Failed to return the correct word", "ain", getSelectedLetters(s, 0, 4, 0, 2));
+        assertNotSame("Failed to return the correct word", "tata", getSelectedLetters(s, 0, 4, 0, 2));
+        
+        System.out.println("testGetSelectedLetters: PASSED");        
+    }
+    
+    @Test(expected=IndexOutOfBoundsException.class)
+    public void testGetSelectedLetters2() {
+        String[][] s = new String[5][5];
+        getSelectedLetters(s, 0, 4, 0, 5);
+    }
 }

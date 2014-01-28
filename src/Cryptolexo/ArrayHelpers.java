@@ -114,4 +114,18 @@ public class ArrayHelpers {
         }
     }
     
+    public static String getSelectedLetters(String[][] array, int x1, int y1, int x2, int y2) {
+        String s = "";
+        if(x1 == x2 && x1 >= 0 && x1 < array.length) {
+            for(int i=Math.min(y1, y2);i<=Math.max(y1, y2);i++) {
+                s = s + array[x1][i];
+            }
+        } else if(y1==y2 && y1 >= 0 && y1 < array[0].length) {
+            for(int i=Math.min(x1, x2);i<=Math.max(x1, x2);i++) {
+                s = s + array[i][y1];
+            }
+        }
+        return s;
+    }
+    
 }

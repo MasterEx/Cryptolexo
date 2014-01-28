@@ -116,11 +116,11 @@ public class ArrayHelpersJUnitTest {
         s[0][3] = "o";
         s[0][4] = "t";
         s[0][5] = "e";
-        assertEquals("Failed to recognize that word doesn't fit", -1, getRowWithCollision(s, "highlander", 0));
-        assertEquals("Failed to recognize that word doesn't fit", -1, getRowWithCollision(s, "bookstore", 0));
-        assertEquals("Failed to find the correct place for the new word", 6, getRowWithCollision(s, "and", 0));
-        assertEquals("Failed to find the correct place for the new word", 6, getRowWithCollision(s, "book", 0));
-        assertEquals("Failed to find the correct place for the new word", 2, getRowWithCollision(s, "notebook", 0));
+        assertEquals("Failed to recognize that word doesn't fit", -1, getColInRowWithCollision(s, "highlander", 0));
+        assertEquals("Failed to recognize that word doesn't fit", -1, getColInRowWithCollision(s, "bookstore", 0));
+        assertEquals("Failed to find the correct place for the new word", 6, getColInRowWithCollision(s, "and", 0));
+        assertEquals("Failed to find the correct place for the new word", 6, getColInRowWithCollision(s, "book", 0));
+        assertEquals("Failed to find the correct place for the new word", 2, getColInRowWithCollision(s, "notebook", 0));
         // "     note   "
         //  012345678912
         s = new String[1][12];
@@ -128,8 +128,8 @@ public class ArrayHelpersJUnitTest {
         s[0][6] = "o";
         s[0][7] = "t";
         s[0][8] = "e";
-        assertEquals("Failed to find the correct place for the new word", 0, getRowWithCollision(s, "and", 0));
-        assertEquals("Failed to recognize that word doesn't fit", -1, getRowWithCollision(s, "notebook", 0));
+        assertEquals("Failed to find the correct place for the new word", 0, getColInRowWithCollision(s, "and", 0));
+        assertEquals("Failed to recognize that word doesn't fit", -1, getColInRowWithCollision(s, "notebook", 0));
         // "     clip   "
         //  012345678912
         s = new String[1][12];
@@ -137,7 +137,7 @@ public class ArrayHelpersJUnitTest {
         s[0][6] = "l";
         s[0][7] = "i";
         s[0][8] = "p";
-        assertEquals("Failed to find the correct place for the new word", 0, getRowWithCollision(s, "paperclip", 0));
+        assertEquals("Failed to find the correct place for the new word", 0, getColInRowWithCollision(s, "paperclip", 0));
         // " rockandroll"
         //  012345678901
         s = new String[1][12];
@@ -152,7 +152,7 @@ public class ArrayHelpersJUnitTest {
         s[0][9] = "o";
         s[0][10] = "l";
         s[0][11] = "l";
-        assertEquals("Failed to find the correct place for the new word", 5, getRowWithCollision(s, "and", 0));
+        assertEquals("Failed to find the correct place for the new word", 5, getColInRowWithCollision(s, "and", 0));
         
         
         s = new String[12][1];
@@ -162,11 +162,11 @@ public class ArrayHelpersJUnitTest {
         s[3][0] = "o";
         s[4][0] = "t";
         s[5][0] = "e";
-        assertEquals("Failed to recognize that word doesn't fit", -1, getColWithCollision(s, "highlander", 0));
-        assertEquals("Failed to recognize that word doesn't fit", -1, getColWithCollision(s, "bookstore", 0));
-        assertEquals("Failed to find the correct place for the new word", 6, getColWithCollision(s, "and", 0));
-        assertEquals("Failed to find the correct place for the new word", 6, getColWithCollision(s, "book", 0));
-        assertEquals("Failed to find the correct place for the new word", 2, getColWithCollision(s, "notebook", 0));
+        assertEquals("Failed to recognize that word doesn't fit", -1, getRowInColWithCollision(s, "highlander", 0));
+        assertEquals("Failed to recognize that word doesn't fit", -1, getRowInColWithCollision(s, "bookstore", 0));
+        assertEquals("Failed to find the correct place for the new word", 6, getRowInColWithCollision(s, "and", 0));
+        assertEquals("Failed to find the correct place for the new word", 6, getRowInColWithCollision(s, "book", 0));
+        assertEquals("Failed to find the correct place for the new word", 2, getRowInColWithCollision(s, "notebook", 0));
         // "     note   "
         //  012345678912
         s = new String[12][1];
@@ -174,8 +174,8 @@ public class ArrayHelpersJUnitTest {
         s[6][0] = "o";
         s[7][0] = "t";
         s[8][0] = "e";
-        assertEquals("Failed to find the correct place for the new word", 0, getColWithCollision(s, "and", 0));
-        assertEquals("Failed to recognize that word doesn't fit", -1, getColWithCollision(s, "notebook", 0));
+        assertEquals("Failed to find the correct place for the new word", 0, getRowInColWithCollision(s, "and", 0));
+        assertEquals("Failed to recognize that word doesn't fit", -1, getRowInColWithCollision(s, "notebook", 0));
         // "     clip   "
         //  012345678912
         s = new String[12][1];
@@ -183,7 +183,7 @@ public class ArrayHelpersJUnitTest {
         s[6][0] = "l";
         s[7][0] = "i";
         s[8][0] = "p";
-        assertEquals("Failed to find the correct place for the new word", 0, getColWithCollision(s, "paperclip", 0));
+        assertEquals("Failed to find the correct place for the new word", 0, getRowInColWithCollision(s, "paperclip", 0));
         // " rockandroll"
         //  012345678901
         s = new String[12][1];
@@ -198,7 +198,7 @@ public class ArrayHelpersJUnitTest {
         s[9][0] = "o";
         s[10][0] = "l";
         s[11][0] = "l";
-        assertEquals("Failed to find the correct place for the new word", 5, getColWithCollision(s, "and", 0));
+        assertEquals("Failed to find the correct place for the new word", 5, getRowInColWithCollision(s, "and", 0));
         
         System.out.println("testFindCollisions: PASSED");
     }

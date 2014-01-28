@@ -40,12 +40,20 @@ public class Game {
         crypt.printCryptolexo();
     }
     
+    public String[] getWords() {
+        return crypt.getWords();
+    }
+    
     public boolean getWord(int x1, int y1, int x2, int y2) {
-        throw new UnsupportedOperationException("Not implemented yet!");
+        return isWordIncluded(crypt.getSelectedLetters(x1, y1, x2, y2));
     }
     
     public boolean isWordIncluded(String word) {
-        throw new UnsupportedOperationException("Not implemented yet!");
+        for(String s : crypt.getWords()) {
+            if(word.equalsIgnoreCase(s))
+                return true;
+        }
+        return false;
     }
     
 }

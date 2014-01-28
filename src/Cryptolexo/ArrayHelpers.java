@@ -12,7 +12,7 @@ package Cryptolexo;
  */
 public class ArrayHelpers {
     
-    public static int getRowWithCollision(String[][] array, String word, int r) {
+    public static int getColInRowWithCollision(String[][] array, String word, int r) {
         // start from all possible places
         for(int i=0;i<array[0].length-word.length();i++) {
             int arrayPointer = i;
@@ -33,7 +33,7 @@ public class ArrayHelpers {
         return -1;
     }
     
-    public static int getColWithCollision(String[][] array, String word, int c) {
+    public static int getRowInColWithCollision(String[][] array, String word, int c) {
         for(int i=0;i<array.length-word.length();i++) {
             // start from all possible places
             int arrayPointer = i;

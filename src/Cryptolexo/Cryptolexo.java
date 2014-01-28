@@ -8,10 +8,8 @@ package Cryptolexo;
 
 import static Cryptolexo.ArrayHelpers.addHorizontalWord;
 import static Cryptolexo.ArrayHelpers.addVerticalWord;
-import static Cryptolexo.ArrayHelpers.getColEmptySpace;
-import static Cryptolexo.ArrayHelpers.getColWithCollision;
-import static Cryptolexo.ArrayHelpers.getRowEmptySpace;
-import static Cryptolexo.ArrayHelpers.getRowWithCollision;
+import static Cryptolexo.ArrayHelpers.getRowInColWithCollision;
+import static Cryptolexo.ArrayHelpers.getColInRowWithCollision;
 import static Cryptolexo.ArrayHelpers.isColEmpty;
 import static Cryptolexo.ArrayHelpers.isRowEmpty;
 import java.util.Arrays;
@@ -34,13 +32,16 @@ public class Cryptolexo {
     
     */
     private int N,M;
+    private String[][] cryptolexoBase;
     private String[][] cryptolexo;
     private int nwords = 5;
+    private String[] words;
     
     public Cryptolexo(int N, int M, int nwords) {
         this.N = N;
         this.M = M;
         this.nwords = nwords;
+        cryptolexoBase = new String[N][M];
         cryptolexo = new String[N][M];
         createCryptolexo();
     }
@@ -49,8 +50,26 @@ public class Cryptolexo {
         this(N, N, nwords);
     }
     
+    public String[] getWords() {
+        return words;
+    }
+    
+    public String getSelectedLetters(int x1, int y1, int x2, int y2) {
+        String s = "";
+        if(x1 == x2 && x1 >= 0 && x1 < cryptolexo.length) {
+            for(int i=Math.min(y1, y2);i<=Math.max(y1, y2);i++) {
+                s = s + cryptolexo[x1][i];
+            }
+        } else if(y1==y2 && y1 >= 0 && y1 < cryptolexo[0].length) {
+            for(int i=Math.min(x1, x2);i<=Math.max(x1, x2);i++) {
+                s = s + cryptolexo[i][y1];
+            }
+        }
+        return s;
+    }
+    
     private void createCryptolexo() {
-        String[] words = WordList.getWords(nwords, N);
+        words = WordList.getWords(nwords, Math.max(N,M));
         Arrays.sort(words, new CompareStringLength());
         
         int w = 0;
@@ -67,51 +86,38 @@ public class Cryptolexo {
             }
             w++;
         }
+        createFilledCryptolexo();
     }
     
     private boolean addWordRandomly(String word) {
         if(Utils.random(2) == 0) {
             // Vertical
             int col = Utils.random(M);
-            if(isColEmpty(cryptolexo, col)) {
+            if(isColEmpty(cryptolexoBase, col)) {
                 int row = Utils.random(N-word.length());
-                addVerticalWord(cryptolexo, row,col,word);
+                addVerticalWord(cryptolexoBase, row,col,word);
                 return true;
             } else {
                 //TRY TO FILL THE SPACES - FIRST AVAILABLE WILL DO
-                int row = getColEmptySpace(cryptolexo, word.length(), col);
+                int row = getRowInColWithCollision(cryptolexoBase, word, col);
                 if(row >= 0) {
-                    addVerticalWord(cryptolexo, row,col,word);
+                    addVerticalWord(cryptolexoBase, row,col,word);
                     return true;
-                } else {
-                    // TRY TO FILL IT WITH COLLISIONS!
-                    row = getColWithCollision(cryptolexo, word, col);
-                    if(row > 0) {
-                        addVerticalWord(cryptolexo, row,col,word);
-                        return true;
-                    }
                 }
             }
         } else {
             // Horizontal
             int row = Utils.random(N);
-            if(isRowEmpty(cryptolexo, row)) {
+            if(isRowEmpty(cryptolexoBase, row)) {
                 int col = Utils.random(M-word.length());
-                addHorizontalWord(cryptolexo, row,col,word);
+                addHorizontalWord(cryptolexoBase, row,col,word);
                 return true;
             } else {
                 //TRY TO FILL THE SPACES - FIRST AVAILABLE WILL DO
-                int col = getRowEmptySpace(cryptolexo, word.length(), row);
+                int col = getColInRowWithCollision(cryptolexoBase, word, row);
                 if(col >= 0) {
-                    addHorizontalWord(cryptolexo, row,col,word);
+                    addHorizontalWord(cryptolexoBase, row,col,word);
                     return true;
-                } else {
-                    // TRY TO FILL IT WITH COLLISIONS!
-                    col = getRowWithCollision(cryptolexo, word, row);
-                    if(col > 0) {
-                        addHorizontalWord(cryptolexo, row,col,word);
-                        return true;
-                    }
                 }
             }
         }
@@ -122,17 +128,29 @@ public class Cryptolexo {
         printCryptolexo(PrintTypes.RANDOM);
     }
     
+    private void createFilledCryptolexo() {
+        for(int i=0;i<cryptolexoBase.length;i++) {
+            for(int j=0;j<cryptolexoBase[0].length;j++){
+                if(cryptolexoBase[i][j] == null) {
+                    cryptolexo[i][j] = String.valueOf((char)Utils.random(65, 91));
+                } else {
+                    cryptolexo[i][j] = cryptolexoBase[i][j];
+                }
+            }
+        }
+    }
+    
     private void printCryptolexo(PrintTypes pt) {
-        for(int i=0;i<cryptolexo.length;i++) {
-            for(int j=0;j<cryptolexo[0].length;j++){
-                if(cryptolexo[i][j] == null) {
+        for(int i=0;i<cryptolexoBase.length;i++) {
+            for(int j=0;j<cryptolexoBase[0].length;j++){
+                if(cryptolexoBase[i][j] == null) {
                     switch(pt) {
                         case EMPTY: System.out.print(" ");break;
-                        case RANDOM: System.out.print(String.valueOf((char)Utils.random(65, 91)));break;
+                        case RANDOM: System.out.print(cryptolexo[i][j]);break;
                         case NUMBER: System.out.print(j);break;
                     }
                 } else {
-                    System.out.print(cryptolexo[i][j]);
+                    System.out.print(cryptolexoBase[i][j]);
                 }
             }
             System.out.println();

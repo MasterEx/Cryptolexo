@@ -62,9 +62,9 @@ public class WordList {
     }
     
     private static void shuffle(String[] array, int n) {
-        for(int i=0;i<n;i++) {
+        for(int i=1;i<=n;i++) {
             String tmp = array[i];
-            int random = Utils.random(array.length);
+            int random = Utils.random(i-1);
             array[i] = array[random];
             array[random] = tmp;
         }

@@ -40,6 +40,10 @@ public class Game {
         crypt.printCryptolexo();
     }
     
+    public boolean getWord(int x1, int y1, int x2, int y2) {
+        throw new UnsupportedOperationException("Not implemented yet!");
+    }
+    
     public boolean isWordIncluded(String word) {
         throw new UnsupportedOperationException("Not implemented yet!");
     }

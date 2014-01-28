@@ -40,7 +40,7 @@ public class ArrayHelpers {
             int wordPointer = 0;
             while(wordPointer < word.length() && arrayPointer < array.length) {
                 if(array[arrayPointer][c] == null || 
-                        array[arrayPointer][c].equals(String.valueOf(word.charAt(wordPointer)))) { // redo this with substring, maybe faster?
+                        array[arrayPointer][c].equals(String.valueOf(word.charAt(wordPointer)))) {
                     wordPointer++;
                     if(wordPointer==word.length()) {
                         return arrayPointer - word.length() +1;

@@ -6,6 +6,8 @@
 
 package Cryptolexo;
 
+import java.util.Random;
+
 /**
  *
  * @author periklis

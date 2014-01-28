@@ -17,8 +17,9 @@ public class Main {
      */
     public static void main(String[] args) {
         // TODO code application logic here
-        
-        
+        Game game = new Game(10, 5);
+        game.newGame();
+        game.printAsciiCryptolexo();
     }
     
 }

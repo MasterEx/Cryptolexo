@@ -35,7 +35,7 @@ public class Cryptolexo {
     */
     private int N,M;
     private String[][] cryptolexo;
-    private int nwords = 5; //TODO get it changed
+    private int nwords = 5;
     
     public Cryptolexo(int N, int M, int nwords) {
         this.N = N;
@@ -51,23 +51,18 @@ public class Cryptolexo {
     
     private void createCryptolexo() {
         String[] words = WordList.getWords(nwords, N);
-        Arrays.sort(words, new CompareStringLength());        
+        Arrays.sort(words, new CompareStringLength());
         
         int w = 0;
         while(w<nwords) {
-            System.out.println(">> word "+words[w]);
             int tries = 0;
             while(tries<3) {
                 tries++;
-                System.out.println("TRY");
                 if(addWordRandomly(words[w])) {
-                    System.out.println(words[w]);
                     tries = 3;
-                    System.out.println("SUCCESS");
                     //w++;
                 } else {
                     // try to fill it!
-                    System.out.println("FALSE");
                 }
             }
             w++;
@@ -75,7 +70,6 @@ public class Cryptolexo {
     }
     
     private boolean addWordRandomly(String word) {
-        System.out.println("addWordRandomly "+word);
         if(Utils.random(2) == 0) {
             // Vertical
             int col = Utils.random(M);
@@ -87,15 +81,12 @@ public class Cryptolexo {
                 //TRY TO FILL THE SPACES - FIRST AVAILABLE WILL DO
                 int row = getColEmptySpace(cryptolexo, word.length(), col);
                 if(row >= 0) {
-                    System.out.println("HERE YES!!! "+row+" "+col+" "+word);
                     addVerticalWord(cryptolexo, row,col,word);
                     return true;
                 } else {
                     // TRY TO FILL IT WITH COLLISIONS!
-                    System.out.println("Trying colllision col");
                     row = getColWithCollision(cryptolexo, word, col);
                     if(row > 0) {
-                        System.out.println("7777 YES!!! "+row+" "+col+" "+word);
                         addVerticalWord(cryptolexo, row,col,word);
                         return true;
                     }
@@ -111,17 +102,13 @@ public class Cryptolexo {
             } else {
                 //TRY TO FILL THE SPACES - FIRST AVAILABLE WILL DO
                 int col = getRowEmptySpace(cryptolexo, word.length(), row);
-                System.out.println("Trying empy row"+row);
                 if(col >= 0) {
-                    System.out.println("HERE222 YES!!! "+row+" "+col+" "+word);
                     addHorizontalWord(cryptolexo, row,col,word);
                     return true;
                 } else {
                     // TRY TO FILL IT WITH COLLISIONS!
-                    System.out.println("Trying colllision row");
                     col = getRowWithCollision(cryptolexo, word, row);
                     if(col > 0) {
-                        System.out.println("3333 YES!!! "+row+" "+col+" "+word);
                         addHorizontalWord(cryptolexo, row,col,word);
                         return true;
                     }

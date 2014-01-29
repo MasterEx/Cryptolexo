@@ -12,6 +12,7 @@ import static Cryptolexo.ArrayHelpers.getRowInColWithCollision;
 import static Cryptolexo.ArrayHelpers.getColInRowWithCollision;
 import static Cryptolexo.ArrayHelpers.isColEmpty;
 import static Cryptolexo.ArrayHelpers.isRowEmpty;
+import java.util.ArrayList;
 import java.util.Arrays;
 import java.util.Comparator;
 
@@ -36,6 +37,9 @@ public class Cryptolexo {
     private String[][] cryptolexo;
     private int nwords = 5;
     private String[] words;
+    private final int ROW = 0, COLUMN = 1;
+    private ArrayList<String> removedWords;
+    private ArrayList<String> includedWords;
     
     public Cryptolexo(int N, int M, int nwords) {
         this.N = N;
@@ -43,6 +47,8 @@ public class Cryptolexo {
         this.nwords = nwords;
         cryptolexoBase = new String[N][M];
         cryptolexo = new String[N][M];
+        removedWords = new ArrayList<>();
+        includedWords = new ArrayList<>();
         createCryptolexo();
     }
     
@@ -61,36 +67,47 @@ public class Cryptolexo {
         this.words = words;
         cryptolexoBase = new String[N][M];
         cryptolexo = new String[N][M];
+        removedWords = new ArrayList<>();
+        includedWords = new ArrayList<>();
         createCryptolexo();
     }
     
     public String[] getWords() {
-        return words;
+        return includedWords.toArray(words);
     }
     
     public String[][] getCryptolexo() {
-        return cryptolexo;
+        return cryptolexo.clone(); // no cryptolexo manipulation allowed outside of Cryptolexo
     }
     
     private void createCryptolexo() {
         // use random words from the WordList if words aren't set
         if(words == null) {
-            System.out.println("HERE**********");
             words = WordList.getWords(nwords, Math.max(N,M));
         }
         Arrays.sort(words, new CompareStringLength());
         
         int w = 0;
         while(w<nwords) {
+            boolean success = false;
             int tries = 0;
             while(tries<3) {
                 tries++;
                 if(addWordRandomly(words[w])) {
                     tries = 3;
+                    success = true;
                     //w++;
-                } else {
-                    // try to fill it!
                 }
+            }
+            if(!success) {
+                if(addWordBruteForceSequentially(words[w])) {
+                    success = true;
+                }
+            }
+            if(success) {
+                includedWords.add(words[w]); 
+            } else {
+                removedWords.add(words[w]);                
             }
             w++;
         }
@@ -98,35 +115,80 @@ public class Cryptolexo {
     }
     
     private boolean addWordRandomly(String word) {
-        if(Utils.random(2) == 0) {
+        if(Utils.random(2) == COLUMN) {
             // Vertical
             int col = Utils.random(M);
-            if(isColEmpty(cryptolexoBase, col)) {
-                int row = Utils.random(N-word.length());
-                addVerticalWord(cryptolexoBase, row,col,word);
-                return true;
-            } else {
-                //TRY TO FILL THE SPACES - FIRST AVAILABLE WILL DO
-                int row = getRowInColWithCollision(cryptolexoBase, word, col);
-                if(row >= 0) {
-                    addVerticalWord(cryptolexoBase, row,col,word);
-                    return true;
-                }
-            }
+            return addWordInCol(word, col);
         } else {
             // Horizontal
             int row = Utils.random(N);
-            if(isRowEmpty(cryptolexoBase, row)) {
-                int col = Utils.random(M-word.length());
+            return addWordInRow(word, row);
+        }
+    }
+    
+    private boolean addWordBruteForceSequentially(String word) {
+        for(int i=0;i<N;i++) {
+            if(addWordInRow(word, i)) {
+                return true;
+            }
+        }
+        for(int i=0;i<M;i++) {
+            if(addWordInCol(word, i)) {
+                return true;
+            }
+        }
+        return false;
+    }
+    
+    // NOT TESTED!
+    private boolean addWordBruteForceRandomStart(String word) {
+        // TO IMPLEMENT
+        int arrayPointer = Utils.random(N);
+        for(int i=0;i<N;i++) {
+            if(addWordInRow(word, arrayPointer)) {
+                return true;
+            }
+            arrayPointer = (arrayPointer+1)%N;
+        }
+        arrayPointer = Utils.random(M);
+        for(int i=0;i<M;i++) {
+            if(addWordInCol(word, i)) {
+                return true;
+            }
+            arrayPointer = (arrayPointer+1)%M;
+        }
+        return false;
+    }
+    
+    private boolean addWordInCol(String word, int col) {
+        // Vertical
+        if(isColEmpty(cryptolexoBase, col)) {
+            int row = Utils.random(N-word.length());
+            addVerticalWord(cryptolexoBase, row,col,word);
+            return true;
+        } else {
+            //TRY TO FILL THE SPACES - FIRST AVAILABLE WILL DO
+            int row = getRowInColWithCollision(cryptolexoBase, word, col);
+            if(row >= 0) {
+                addVerticalWord(cryptolexoBase, row,col,word);
+                return true;
+            }
+        }
+        return false;
+    }
+    
+    private boolean addWordInRow(String word, int row) {
+        // Horizontal
+        if(isRowEmpty(cryptolexoBase, row)) {
+            int col = Utils.random(M-word.length());
+            addHorizontalWord(cryptolexoBase, row,col,word);
+            return true;
+        } else {
+            //TRY TO FILL THE SPACES - FIRST AVAILABLE WILL DO
+            int col = getColInRowWithCollision(cryptolexoBase, word, row);
+            if(col >= 0) {
                 addHorizontalWord(cryptolexoBase, row,col,word);
                 return true;
-            } else {
-                //TRY TO FILL THE SPACES - FIRST AVAILABLE WILL DO
-                int col = getColInRowWithCollision(cryptolexoBase, word, row);
-                if(col >= 0) {
-                    addHorizontalWord(cryptolexoBase, row,col,word);
-                    return true;
-                }
             }
         }
         return false;

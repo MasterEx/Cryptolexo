@@ -40,6 +40,7 @@ public class Cryptolexo {
     private final int ROW = 0, COLUMN = 1;
     private ArrayList<String> removedWords;
     private ArrayList<String> includedWords;
+    private final int MAX_RANDOM_TRIES = 3;
     
     public Cryptolexo(int N, int M, int nwords) {
         this.N = N;
@@ -76,6 +77,10 @@ public class Cryptolexo {
         return includedWords.toArray(words);
     }
     
+    public String[] getRemovedWords() {
+        return removedWords.toArray(words);
+    }
+    
     public String[][] getCryptolexo() {
         return cryptolexo.clone(); // no cryptolexo manipulation allowed outside of Cryptolexo
     }
@@ -91,10 +96,10 @@ public class Cryptolexo {
         while(w<nwords) {
             boolean success = false;
             int tries = 0;
-            while(tries<3) {
+            while(tries<MAX_RANDOM_TRIES) {
                 tries++;
                 if(addWordRandomly(words[w])) {
-                    tries = 3;
+                    tries = MAX_RANDOM_TRIES;
                     success = true;
                     //w++;
                 }

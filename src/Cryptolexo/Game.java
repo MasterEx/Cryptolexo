@@ -49,6 +49,10 @@ public class Game {
         return crypt.getWords();
     }
     
+    public String[] getNotUsedWords() {
+        return crypt.getRemovedWords();
+    }
+    
     public boolean getWord(int x1, int y1, int x2, int y2) {
         return isWordIncluded(ArrayHelpers.getSelectedLetters(crypt.getCryptolexo(), x1, y1, x2, y2));
     }

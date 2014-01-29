@@ -51,10 +51,12 @@ public class WordList {
         shuffle(array, n);
         String[] retArr = new String[n];
         int i=0, c=0;
-        while(i<n) {
+        while(i<n && i<array.length) {
             if(array[i].length() <= length) {
-                retArr[i] = array[i];
+                retArr[c] = array[i];
                 c++;
+            } else {
+                n++;
             }
             i++;
         }
@@ -62,7 +64,7 @@ public class WordList {
     }
     
     private static void shuffle(String[] array, int n) {
-        for(int i=1;i<=n;i++) {
+        for(int i=array.length-1;i>0;i--) {
             String tmp = array[i];
             int random = Utils.random(i-1);
             array[i] = array[random];

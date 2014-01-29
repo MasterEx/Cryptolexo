@@ -1,8 +1,3 @@
-/*
- * To change this license header, choose License Headers in Project Properties.
- * To change this template file, choose Tools | Templates
- * and open the template in the editor.
- */
 
 import static Cryptolexo.ArrayHelpers.*;
 import org.junit.After;
@@ -14,25 +9,25 @@ import static org.junit.Assert.*;
 
 /**
  *
- * @author periklis
+ * @author Periklis Ntanasis <pntanasis@gmail.com>
  */
 public class ArrayHelpersJUnitTest {
-    
+
     public ArrayHelpersJUnitTest() {
     }
-    
+
     @BeforeClass
     public static void setUpClass() {
     }
-    
+
     @AfterClass
     public static void tearDownClass() {
     }
-    
+
     @Before
     public void setUp() {
     }
-    
+
     @After
     public void tearDown() {
     }
@@ -40,7 +35,6 @@ public class ArrayHelpersJUnitTest {
     // TODO add test methods here.
     // The methods must be annotated with annotation @Test. For example:
     //
-    
     @Test
     public void testEmpty() {
         String[][] s = new String[2][2];
@@ -51,7 +45,7 @@ public class ArrayHelpersJUnitTest {
         assertFalse("Failed to recognize occupied colum as occupied", isColEmpty(s, 1));
         System.out.println("testEmpty: PASSED");
     }
-    
+
     @Test
     public void testFindEmpty() {
         String[][] s = new String[3][6];
@@ -77,7 +71,7 @@ public class ArrayHelpersJUnitTest {
         assertEquals("Failed to recognize that word doesn't fit", -1, getRowEmptySpace(s, 4, 2));
         assertEquals("Failed to recognize that word doesn't fit", -1, getRowEmptySpace(s, 2, 2));
         assertEquals("Failed to find the correct place for the new word", 0, getRowEmptySpace(s, 1, 2));
-        
+
         s = new String[8][3];
         // think vertical! "ttt     "
         s[0][0] = "t";
@@ -103,10 +97,10 @@ public class ArrayHelpersJUnitTest {
         assertEquals("Failed to recognize that word doesn't fit", -1, getColEmptySpace(s, 5, 2));
         assertEquals("Failed to recognize that word doesn't fit", -1, getColEmptySpace(s, 4, 2));
         assertEquals("Failed to find the correct place for the new word", 0, getColEmptySpace(s, 2, 2));
-        
+
         System.out.println("testFindEmpty: PASSED");
     }
-    
+
     @Test
     public void testFindCollisions() {
         String[][] s = new String[1][12];
@@ -153,8 +147,7 @@ public class ArrayHelpersJUnitTest {
         s[0][10] = "l";
         s[0][11] = "l";
         assertEquals("Failed to find the correct place for the new word", 5, getColInRowWithCollision(s, "and", 0));
-        
-        
+
         s = new String[12][1];
         // "  note      "  think vertical!
         //  012345678912
@@ -199,10 +192,10 @@ public class ArrayHelpersJUnitTest {
         s[10][0] = "l";
         s[11][0] = "l";
         assertEquals("Failed to find the correct place for the new word", 5, getRowInColWithCollision(s, "and", 0));
-        
+
         System.out.println("testFindCollisions: PASSED");
     }
-    
+
     @Test
     public void testGetSelectedLetters() {
         String[][] s = new String[5][5];
@@ -220,11 +213,11 @@ public class ArrayHelpersJUnitTest {
         assertEquals("Failed to return the correct word", "ain", getSelectedLetters(s, 0, 2, 0, 4));
         assertEquals("Failed to return the correct word", "ain", getSelectedLetters(s, 0, 4, 0, 2));
         assertNotSame("Failed to return the correct word", "tata", getSelectedLetters(s, 0, 4, 0, 2));
-        
-        System.out.println("testGetSelectedLetters: PASSED");        
+
+        System.out.println("testGetSelectedLetters: PASSED");
     }
-    
-    @Test(expected=IndexOutOfBoundsException.class)
+
+    @Test(expected = IndexOutOfBoundsException.class)
     public void testGetSelectedLetters2() {
         String[][] s = new String[5][5];
         getSelectedLetters(s, 0, 4, 0, 5);

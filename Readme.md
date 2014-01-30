@@ -21,3 +21,5 @@ Here is an example:
     HARANGUED SHUTTERS INITIATE WITH CLOP 
     
 The code is licensed under the GPLv3 license.
+
+[See also that blog post.](http://masterex.github.io/archive/2014/01/31/cryptolexo.html)

@@ -45,8 +45,8 @@ public class Cryptolexo {
     
     */
     private int N,M;
-    private String[][] cryptolexoBase;
-    private String[][] cryptolexo;
+    private char[][] cryptolexoBase;
+    private char[][] cryptolexo;
     private int nwords = 5;
     private String[] words;
     private final int ROW = 0, COLUMN = 1;
@@ -58,8 +58,8 @@ public class Cryptolexo {
         this.N = N;
         this.M = M;
         this.nwords = nwords;
-        cryptolexoBase = new String[N][M];
-        cryptolexo = new String[N][M];
+        cryptolexoBase = new char[N][M];
+        cryptolexo = new char[N][M];
         removedWords = new ArrayList<>();
         includedWords = new ArrayList<>();
         createCryptolexo();
@@ -78,8 +78,8 @@ public class Cryptolexo {
         this.M = M;
         this.nwords = words.length;
         this.words = words;
-        cryptolexoBase = new String[N][M];
-        cryptolexo = new String[N][M];
+        cryptolexoBase = new char[N][M];
+        cryptolexo = new char[N][M];
         removedWords = new ArrayList<>();
         includedWords = new ArrayList<>();
         createCryptolexo();
@@ -93,7 +93,7 @@ public class Cryptolexo {
         return removedWords.toArray(words);
     }
     
-    public String[][] getCryptolexo() {
+    public char[][] getCryptolexo() {
         return cryptolexo.clone(); // no cryptolexo manipulation allowed outside of Cryptolexo
     }
     
@@ -218,8 +218,8 @@ public class Cryptolexo {
     private void createFilledCryptolexo() {
         for(int i=0;i<cryptolexoBase.length;i++) {
             for(int j=0;j<cryptolexoBase[0].length;j++){
-                if(cryptolexoBase[i][j] == null) {
-                    cryptolexo[i][j] = String.valueOf((char)Utils.random(65, 91));
+                if(cryptolexoBase[i][j] == 0) {
+                    cryptolexo[i][j] = (char)Utils.random(65, 91);
                 } else {
                     cryptolexo[i][j] = cryptolexoBase[i][j];
                 }
@@ -230,7 +230,7 @@ public class Cryptolexo {
     private void printCryptolexo(PrintTypes pt) {
         for(int i=0;i<cryptolexoBase.length;i++) {
             for(int j=0;j<cryptolexoBase[0].length;j++){
-                if(cryptolexoBase[i][j] == null) {
+                if(cryptolexoBase[i][j] == 0) {
                     switch(pt) {
                         case EMPTY: System.out.print(" ");break;
                         case RANDOM: System.out.print(cryptolexo[i][j]);break;
